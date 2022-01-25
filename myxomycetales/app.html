@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>真性粘菌＋セルオートマトン</title>
+<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.0/chroma.min.js"></script>
+<!-- add here -->
+<script>
+"use strict";
+// Init
+const elmContId   = 'container';
+const elmLoopsId  = 'loops';
+const elmCanvasId = 'canvas';
+const elmBtnId    = 'btn';
+
+// Params
+const MAX_STEP = 5000;
+const MIN_THICK = 3;
+const MIN_MOV = 1;
+const WAIT_MS = 50; // ms
+const BASE = 15;    // BASE*BASE
+const N = 6*BASE;   // N*N
+const U = 6;
+const D = 6;
+
+let cmap = chroma.scale(['whitesmoke', 'green']).domain([0, U]);
+let times = 0;
+let prev = [];
+
+// セル
+let cell = (new Array(N)).fill(0);
+cell.forEach((_, i) => {
+  cell[i] = (new Array(N)).fill(0);
+});
+
+// 原形質の存在するセル
+let proto = [];
+
+// sleep()
+const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));
+
+// 配列シャッフル
+const shuffle = ([...array]) => {
+  for (let i = array.length - 1; i >= 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+// 初期化
+const init = () => {
+  let s = Math.floor((N-BASE)/2);
+  let e = Math.ceil((N+BASE)/2);
+  times = 0;
+  proto.length = 0;
+  cell.forEach((_, i) => {cell[i].fill(0);});
+  for (let i = s; i < e; i++) {
+    for (let j = s; j < e; j++) {
+      // 中央領域に原形質を設置する
+      cell[i][j] = Math.floor(Math.random() * (U - MIN_THICK)) + MIN_THICK;
+      if (cell[i][j] != 0) { proto.push([i,j]); }
+    }
+  }
+};
+
+function draw() {
+  const canvas = document.getElementById(elmCanvasId);
+  const ctx = canvas.getContext('2d');
+  let stdLen = Math.min(canvas.clientWidth, window.innerHeight - 200);
+  let scale = canvas.width / stdLen;
+  let size = stdLen / N;
+  ctx.setTransform(scale, 0, 0, scale, 0, 0);
+  canvas.width  = stdLen;
+  canvas.height = stdLen;
+  // canvas.style.width  = `${stdLen}px`;
+  // canvas.style.height = `${stdLen}px`;
+
+  for (let i = 0; i < N; i++) {
+    for (let j = 0; j < N; j++) {
+      let c = cmap(cell[i][j]).rgb();
+      ctx.fillStyle = `rgb(${c[0]}, ${c[1]}, ${c[2]})`;
+      // fillRect(開始x座標, 開始y座標, 描画幅, 描画高さ)
+      ctx.fillRect(j * size, i * size, size, size);
+    }
+  }
+}
+
+function step() {
+
+  let [y,x] = proto[Math.floor(Math.random() * proto.length)];
+  let v = cell[y][x];
+
+  let nb = [
+    [y,x+1],[y,x-1],
+    [y+1,x],[y-1,x]
+  ];
+  nb = nb.filter(c => (0 <= c[0] && c[0] < N && 0 <= c[1] && c[1] < N));
+  shuffle(nb);
+
+  for (let c of nb) {
+    let [p,q] = c;
+    let w = cell[p][q];
+
+    if (D < Math.abs(w - v)) continue;
+    
+    if (0 < v && w < U) {
+      v = v - MIN_MOV;
+      cell[y][x] = cell[y][x] - MIN_MOV;
+      cell[p][q] = cell[p][q] + MIN_MOV;
+    } else if (0 < w && v < U) {
+      v = v + MIN_MOV;
+      cell[y][x] = cell[y][x] + MIN_MOV;
+      cell[p][q] = cell[p][q] - MIN_MOV;
+    }
+    if (JSON.stringify(proto).indexOf(JSON.stringify(c)) == -1) proto.push(c);
+  }
+}
+
+async function run() {
+  const loops = document.getElementById(elmLoopsId);
+  for (let t = 0; t <= MAX_STEP; t++) {
+    step();
+    draw();
+    loops.textContent = `loop: ${times++} [times]`;
+    await sleep(0);
+  }
+}
+
+window.onload = () => {
+  let elmbtn = document.getElementById(elmBtnId);
+  init();
+  draw();
+  // クリックイベントを登録
+  elmbtn.onclick = () => {
+    // init();
+    // step();
+    // draw();
+    run();
+  };
+}
+
+</script>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+  }
+  #container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    /* padding: 2%; */
+    align-items: center;
+    justify-items: center;
+    align-content: center;
+    justify-content: center;
+  }
+  #canvas {
+    display: block;
+    width: calc(100vmin - 80px);
+    margin: 0 auto;
+  }
+  #btn {
+    display: inline-block;
+  }
+</style>
+</head>
+<body>
+  <div id="container">
+    <div id="stat">
+      <button id="btn" type="button">Start!</button>
+      <span id="loops">loop: ---- [times]</span>
+    </div>
+    <canvas id="canvas"></canvas>
+  </div>
+</body>
+</html>
