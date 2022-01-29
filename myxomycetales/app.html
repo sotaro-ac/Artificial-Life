@@ -183,15 +183,15 @@
       }
 
       // 原形質の上限値
-      if (uppLim.value == 0) {
-        uppLim.value = U; // '' or 0 の場合
+      if (uppLim.value <= 0) {
+        uppLim.value = U; // value == '' or value <= 0
       } else {
         U = Number(uppLim.value);
       }
 
       // 原形質間で移動可能となる差
-      if (differ.value == 0) {
-        differ.value = D; // '' or 0 の場合
+      if (differ.value <= 0) {
+        differ.value = D; // value == '' or value <= 0
       } else {
         D = Number(differ.value);
       }
@@ -420,7 +420,7 @@
       <button id="btn" type="button">START!</button>
       <span id="loops">loop: ---- [times]</span>
       <div id="param">
-        <label>Add step = <input type="number" id="step"></label>
+        <label>Add step = <input type="number" id="step" step="100"></label>
         <label>U = <input type="number" id="upperLimit"></label>
         <label>D = <input type="number" id="difference"></label>
       </div>
