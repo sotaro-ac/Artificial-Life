@@ -1,0 +1,91 @@
+/* font */
+@import url("https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Bungee&family=Press+Start+2P&family=VT323&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+#container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  align-items: center;
+  justify-items: center;
+  align-content: center;
+  justify-content: center;
+}
+
+#stat {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+
+#stat * {
+  font-family: "VT323", monospace;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+#param {
+  display: flex;
+  flex: 0 0 100%;
+  font-size: 1em;
+  justify-content: center;
+  padding: 10px;
+}
+
+#param label {
+  margin: 0 0.4em;
+}
+
+#param input {
+  width: 3em;
+  font-size: 1em;
+  border: none;
+  border-bottom: solid 2.5px limegreen;
+  text-align: right;
+}
+
+input#upperLimit,
+input#difference {
+  width: 2em;
+}
+
+#btn {
+  /* display: inline-block; */
+  background-color: transparent;
+  border: solid 2.5px limegreen;
+  cursor: pointer;
+  outline: none;
+  width: 6em;
+  padding: 4px;
+  margin-right: 10px;
+}
+
+#btn:hover {
+  border: solid 2.5px greenyellow;
+}
+
+#btn:disabled {
+  border: solid 2.5px coral;
+}
+
+#btn:focus {
+  outline: solid 2.5px greenyellow;
+}
+
+#canvas {
+  display: block;
+  width: calc(80vmin);
+  margin: 0 auto;
+}
+
+#loops {
+  width: 10em;
+  text-align: right;
+}
