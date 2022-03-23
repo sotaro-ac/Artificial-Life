@@ -7,6 +7,7 @@
  */
 
 // FUNCTION
+const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));
 const getRandom = (range) => { return Math.floor(Math.random() * range); };
 
 // CONSTANT
@@ -21,7 +22,7 @@ let cell = Array.from(new Array(N), _ => [...Array(N)].map(_ => getRandom(2)));
 let ctmp = JSON.parse(JSON.stringify(cell));
 
 let loops = 0;
-let intervalId = null;
+let requestId = null;
 
 // HTML Elements' IDs
 const btnStart = $("#btn")[0];
@@ -94,7 +95,7 @@ function update(y, x) {
 
 }
 
-function step() {
+async function step() {
     for (let y = 0; y < N; y++) {
         for (let x = 0; x < N; x++) {
             update(y, x);
@@ -106,6 +107,12 @@ function step() {
     ctmp = _tmp_;
     draw();
     $(spanLoops).text(`loop: ${++loops} [times]`);
+
+    await sleep(TIME_WAIT);
+
+    if (requestId) {
+        requestId = requestAnimationFrame(step);
+    }
 }
 
 // init
@@ -115,12 +122,12 @@ $(document).ready(function () {
 
 // addEventListner
 $(btnStart).click(function (e) {
-    if (intervalId) {
-        clearInterval(intervalId);
-        intervalId = null;
+    if (requestId) {
+        cancelAnimationFrame(requestId);
+        requestId = null;
         $(btnStart).text("START!");
     } else {
-        intervalId = setInterval(() => step(), TIME_WAIT);
+        requestId = requestAnimationFrame(step);
         $(btnStart).text("STOP!");
     }
 });
