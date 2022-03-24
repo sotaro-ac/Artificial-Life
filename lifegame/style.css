@@ -34,7 +34,27 @@
     font-weight: bold;
 }
 
-#btn {
+#param {
+    display        : flex;
+    flex           : 0 0 100%;
+    font-size      : 1em;
+    justify-content: center;
+    padding        : 10px;
+}
+
+#param label {
+    margin: 0 0.4em;
+}
+
+#param input {
+    width        : 3em;
+    font-size    : 1em;
+    border       : none;
+    border-bottom: solid 2.5px limegreen;
+    text-align   : right;
+}
+
+.btn {
     /* display: inline-block; */
     background-color: transparent;
     border          : solid 2.5px limegreen;
@@ -45,15 +65,22 @@
     margin-right    : 10px;
 }
 
-#btn:hover {
+#start {}
+
+#reset {
+    width  : 1.8em;
+    padding: 2px;
+}
+
+.btn:hover {
     border: solid 2.5px greenyellow;
 }
 
-#btn:disabled {
+.btn:disabled {
     border: solid 2.5px coral;
 }
 
-#btn:focus {
+.btn:focus {
     outline: solid 2.5px greenyellow;
 }
 
@@ -66,4 +93,19 @@
 #loops {
     width     : 10em;
     text-align: right;
+}
+
+.icon {
+    width            : 1em;
+    height           : 1em;
+    display          : inline-block;
+    vertical-align   : middle;
+    /* SVG file is powered by Google. thanks! */
+    background-image : url("../icon/restart_alt_black_24dp.svg");
+    background-repeat: no-repeat;
+    background-size  : 100% 100%;
+}
+
+.icon.icon-reset {
+    background-position: 0em 0em;
 }

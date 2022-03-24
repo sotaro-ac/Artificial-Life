@@ -12,7 +12,7 @@ const getRandom = (range) => { return Math.floor(Math.random() * range); };
 
 // CONSTANT
 const N = 100;
-const TIME_WAIT = 250;
+// const TIME_WAIT = 250;
 
 // Color Generator
 const cmap = chroma.scale(['whitesmoke', 'green']).domain([0, 1]);
@@ -21,15 +21,21 @@ const cmap = chroma.scale(['whitesmoke', 'green']).domain([0, 1]);
 let cell = Array.from(new Array(N), _ => [...Array(N)].map(_ => getRandom(2)));
 let ctmp = JSON.parse(JSON.stringify(cell));
 
+// variables
 let loops = 0;
+let time_wait = 250;
+let speed_rate = 1.0;
+let closed = true;
 let requestId = null;
 
 // HTML Elements' IDs
-const btnStart = $("#btn")[0];
+const btnStart = $("#start")[0];
+const btnReset = $("#reset")[0];
 const spanLoops = $("#loops")[0];
 const canvas = $("#canvas")[0];
 const ctx = canvas.getContext('2d');
 
+// Draw cells in canvas
 function draw() {
     const stdLen = Math.min(canvas.clientWidth, window.innerHeight - 200);
 
@@ -60,7 +66,7 @@ function draw() {
     // ctx.fillText(`HELLO WORLD!`, (canvas.width - 20 * size) / 2, canvas.height / 2);
 }
 
-// Rule of Life Game
+// update a cell
 function update(y, x) {
 
     let neignbors = 0;
@@ -72,6 +78,10 @@ function update(y, x) {
             if (cell[(y + v + N) % N][(x + u + N) % N]) neignbors++
         }
     }
+
+    // 
+    // Rule of Life Game
+    // 
 
     // Birth
     if (!cell[y][x] && neignbors == 3) {
@@ -95,7 +105,9 @@ function update(y, x) {
 
 }
 
+// update cells to next condition
 async function step() {
+    // calculate next condition of cells
     for (let y = 0; y < N; y++) {
         for (let x = 0; x < N; x++) {
             update(y, x);
@@ -105,22 +117,49 @@ async function step() {
     let _tmp_ = cell;
     cell = ctmp;
     ctmp = _tmp_;
+    // re-draw canvas
     draw();
+    // increase the times of loops
     $(spanLoops).text(`loop: ${++loops} [times]`);
-
-    await sleep(TIME_WAIT);
-
+    // waiting
+    await sleep(time_wait * speed_rate);
+    // call next step recursively
     if (requestId) {
         requestId = requestAnimationFrame(step);
     }
 }
 
-// init
+// reset canvas
+function reset() {
+    // stop updating
+    if (requestId) {
+        cancelAnimationFrame(requestId);
+        requestId = null;
+    }
+    // reset each cells
+    for (let i = 0; i < N; i++) {
+        for (let j = 0; j < N; j++) {
+            const val = getRandom(2);
+            cell[i][j] = val;
+            ctmp[i][j] = val;
+        }
+    }
+    // re-draw canvas
+    draw();
+    // increase the times of loops
+    $(spanLoops).text(`loop: ${loops = 0} [times]`);
+}
+
+// init canvas and loops
 $(document).ready(function () {
     draw();
 });
 
+// 
 // addEventListner
+// 
+
+// start/stop button
 $(btnStart).click(function (e) {
     if (requestId) {
         cancelAnimationFrame(requestId);
@@ -131,3 +170,6 @@ $(btnStart).click(function (e) {
         $(btnStart).text("STOP!");
     }
 });
+
+// reset button
+$(btnReset).click(() => reset());

@@ -20,8 +20,14 @@
     <div id="container">
       <h1>LIFE GAME</h1>
       <div id="stat">
-        <button id="btn" type="button">START!</button>
+        <button id="start" class="btn" type="button">START!</button>
+        <button id="reset" class="btn" type="reset"><span class="icon icon-reset"></span></button>
         <span id="loops">loop: ---- [times]</span>
+        <!-- <div id="param">
+          <label>Add step = <input type="number" id="step" step="100" /></label>
+          <label>U = <input type="number" id="upperLimit" /></label>
+          <label>D = <input type="number" id="difference" /></label>
+        </div> -->
       </div>
       <canvas id="canvas"></canvas>
       <script type="text/javascript" src="main.js"></script>
