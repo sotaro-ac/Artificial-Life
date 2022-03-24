@@ -8,6 +8,15 @@
     margin    : 0;
 }
 
+:root {
+    --bg-color      : white;
+    --main-color    : black;
+    --main-color-a  : limegreen;
+    --main-color-b  : orangered;
+    --accent-color-a: greenyellow;
+    --accent-color-b: orange;
+}
+
 #container {
     display        : flex;
     flex-direction : column;
@@ -34,6 +43,55 @@
     font-weight: bold;
 }
 
+#stat>*:not(:last-child) {
+    margin-right: 10px;
+}
+
+#loops {
+    width     : 8em;
+    text-align: right;
+}
+
+.btn {
+    /* display: inline-block; */
+    background-color: transparent;
+    border          : solid 2.5px var(--main-color-a);
+    cursor          : pointer;
+    outline         : none;
+    width           : 6em;
+    padding         : 4px;
+    /* margin-right : 10px; */
+}
+
+.btn:hover {
+    border: solid 2.5px var(--accent-color-a);
+}
+
+.btn:disabled {
+    border: solid 2.5px coral;
+}
+
+.btn:focus {
+    outline: solid 2.5px var(--accent-color-a);
+}
+
+#start.run {
+    border: solid 2.5px var(--main-color-b);
+}
+
+#start.run:hover {
+    border: solid 2.5px var(--accent-color-b);
+}
+
+#start.run:focus {
+    outline: solid 2.5px var(--main-color-b);
+}
+
+#reset {
+    width  : 1.8em;
+    padding: 2px;
+}
+
 #param {
     display        : flex;
     flex           : 0 0 100%;
@@ -46,53 +104,77 @@
     margin: 0 0.4em;
 }
 
+#param hr {
+    margin: 0 .5em;
+}
+
 #param input {
     width        : 3em;
     font-size    : 1em;
     border       : none;
-    border-bottom: solid 2.5px limegreen;
+    border-bottom: solid 2.5px var(--main-color-a);
     text-align   : right;
 }
 
-.btn {
-    /* display: inline-block; */
-    background-color: transparent;
-    border          : solid 2.5px limegreen;
-    cursor          : pointer;
-    outline         : none;
-    width           : 6em;
-    padding         : 4px;
-    margin-right    : 10px;
+#slider[type='range'] {
+    -webkit-appearance: none;
+    align-self        : center;
+    appearance        : none;
+    cursor            : pointer;
+    outline           : none;
+    height            : .5em;
+    width             : 12em;
+    background        : var(--accent-color-a);
+    /** [DONT WORK!]
+    background     : linear-gradient(
+        to right,
+        var(--accent-color-a) calc(attr(value) / attr(max) * 100),
+        gray calc(attr(value) / attr(max) * 100));*/
+    border            : solid 2px var(--bg-color);
+    /* border-radius  : 4px; */
 }
 
-#start {}
-
-#reset {
-    width  : 1.8em;
-    padding: 2px;
+#slider[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background        : var(--main-color-a);
+    width             : 1em;
+    height            : 1em;
+    border-radius     : 10%;
+    box-shadow        : 0px 3px 6px 0px rgba(0, 0, 0, 0.15);
 }
 
-.btn:hover {
-    border: solid 2.5px greenyellow;
+#slider[type="range"]:active::-webkit-slider-thumb {
+    outline: solid 2.5px rgba(0, 0, 0, .10);
 }
 
-.btn:disabled {
-    border: solid 2.5px coral;
+#spanTW {
+    width     : 5em;
+    text-align: right;
 }
 
-.btn:focus {
-    outline: solid 2.5px greenyellow;
+#check {
+    display: none;
+}
+
+#lbl-check {
+    border-bottom: solid 2.5px gray;
+    color        : gray;
+    user-select  : none;
+}
+
+#check:checked+#lbl-check {
+    border-bottom: solid 2.5px var(--main-color-a);
+    color        : var(--main-color-a);
+}
+
+#check+#lbl-check:hover {
+    border-bottom: solid 2.5px var(--accent-color-a);
 }
 
 #canvas {
     display: block;
     width  : calc(80vmin);
     margin : 0 auto;
-}
-
-#loops {
-    width     : 10em;
-    text-align: right;
 }
 
 .icon {

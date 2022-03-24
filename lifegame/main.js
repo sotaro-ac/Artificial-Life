@@ -12,6 +12,7 @@ const getRandom = (range) => { return Math.floor(Math.random() * range); };
 
 // CONSTANT
 const N = 100;
+const TIME_WAIT = [0, 1, 5, 10, 25, 50, 75, 100, 150, 200, 250, 500, 750, 1000, 1500, 2000];
 // const TIME_WAIT = 250;
 
 // Color Generator
@@ -23,9 +24,7 @@ let ctmp = JSON.parse(JSON.stringify(cell));
 
 // variables
 let loops = 0;
-let time_wait = 250;
-let speed_rate = 1.0;
-let closed = true;
+let time_wait = TIME_WAIT[10];  // 250
 let requestId = null;
 
 // HTML Elements' IDs
@@ -33,6 +32,9 @@ const btnStart = $("#start")[0];
 const btnReset = $("#reset")[0];
 const spanLoops = $("#loops")[0];
 const canvas = $("#canvas")[0];
+const inpSlider = $("#slider")[0];
+const spanTW = $("#spanTW")[0];
+const inpCheck = $("#check")[0];
 const ctx = canvas.getContext('2d');
 
 // Draw cells in canvas
@@ -72,10 +74,24 @@ function update(y, x) {
     let neignbors = 0;
 
     // Sum of living neighbors
-    for (let v = -1; v <= 1; v++) {
-        for (let u = -1; u <= 1; u++) {
-            if (!v && !u) continue;
-            if (cell[(y + v + N) % N][(x + u + N) % N]) neignbors++
+    // if ($(inpCheck).prop('checked')) {   // another condition
+    if (inpCheck.checked) {
+        // CYCLE WORLD
+        for (let v = -1; v <= 1; v++) {
+            for (let u = -1; u <= 1; u++) {
+                if (!v && !u) continue;
+                if (cell[(y + v + N) % N][(x + u + N) % N]) neignbors++
+            }
+        }
+    }
+    else {
+        // OPENED WORLD
+        for (let v = -1; v <= 1; v++) {
+            for (let u = -1; u <= 1; u++) {
+                if (!v && !u) continue;
+                if (y + v < 0 || N <= y + v || x + u < 0 || N <= x + u) continue;
+                if (cell[(y + v + N) % N][(x + u + N) % N]) neignbors++
+            }
         }
     }
 
@@ -120,9 +136,9 @@ async function step() {
     // re-draw canvas
     draw();
     // increase the times of loops
-    $(spanLoops).text(`loop: ${++loops} [times]`);
+    $(spanLoops).text(`LOOP: ${++loops} [times]`);
     // waiting
-    await sleep(time_wait * speed_rate);
+    await sleep(time_wait);
     // call next step recursively
     if (requestId) {
         requestId = requestAnimationFrame(step);
@@ -147,11 +163,27 @@ function reset() {
     // re-draw canvas
     draw();
     // increase the times of loops
-    $(spanLoops).text(`loop: ${loops = 0} [times]`);
+    $(spanLoops).text(`LOOP: ${loops = 0} [times]`);
+    // set inner text of start button to "START!"
+    $(btnStart).text("START!").removeClass("run");
 }
 
 // init canvas and loops
 $(document).ready(function () {
+    // set input range attribute
+    $(inpSlider)
+        .attr('max', TIME_WAIT.length - 1)
+        .attr('step', 1)
+        .val(TIME_WAIT.findIndex(e => e == time_wait));
+    // set background meter using input value
+    let rate = (inpSlider.value / inpSlider.max) * 100;
+    $(inpSlider).css(
+        'background',
+        `linear-gradient(to right, var(--accent-color-a) ${rate}%, gray ${rate}%)`
+    );
+    // 
+    $(spanTW).text(`${time_wait} [msec]`);
+    // initial drawing canvas
     draw();
 });
 
@@ -164,12 +196,25 @@ $(btnStart).click(function (e) {
     if (requestId) {
         cancelAnimationFrame(requestId);
         requestId = null;
-        $(btnStart).text("START!");
+        $(btnStart).text("START!").removeClass("run");
     } else {
         requestId = requestAnimationFrame(step);
-        $(btnStart).text("STOP!");
+        $(btnStart).text("STOP!").addClass("run");
     }
 });
 
 // reset button
 $(btnReset).click(() => reset());
+
+// time_wait slider
+$(inpSlider).on('input', function (e) {
+    //* NOTE: e.target === inpSlider
+    time_wait = TIME_WAIT[inpSlider.value];
+    $(spanTW).text(`${time_wait} [msec]`);
+    let rate = (inpSlider.value / inpSlider.max) * 100;
+    // inpSlider.style = `background: linear-gradient(...)`;
+    $(inpSlider).css(
+        'background',
+        `linear-gradient(to right, var(--accent-color-a) ${rate}%, gray ${rate}%)`
+    );
+});

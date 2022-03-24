@@ -20,14 +20,19 @@
     <div id="container">
       <h1>LIFE GAME</h1>
       <div id="stat">
+        <span id="loops">LOOP: ---- [times]</span>
         <button id="start" class="btn" type="button">START!</button>
-        <button id="reset" class="btn" type="reset"><span class="icon icon-reset"></span></button>
-        <span id="loops">loop: ---- [times]</span>
-        <!-- <div id="param">
-          <label>Add step = <input type="number" id="step" step="100" /></label>
-          <label>U = <input type="number" id="upperLimit" /></label>
-          <label>D = <input type="number" id="difference" /></label>
-        </div> -->
+        <button id="reset" class="btn" type="reset">
+          <span class="icon icon-reset"></span>
+        </button>
+        <div id="param">
+          <label id="lbl-slider" for="slider">TIME WAIT: </label>
+          <input id="slider" type="range" min="0" max="1000" step="50" />
+          <span id="spanTW"> ---- [msec]</span>
+          <hr />
+          <input id="check" type="checkbox" checked />
+          <label id="lbl-check" for="check">CYCLE WORLD</label>
+        </div>
       </div>
       <canvas id="canvas"></canvas>
       <script type="text/javascript" src="main.js"></script>
