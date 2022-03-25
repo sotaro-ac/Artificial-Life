@@ -21,11 +21,6 @@ JavaScript実装のCanvasアニメーションを利用して，セル・オー�
 
 - **Coming Soon... Maybe!**
 
-<ul id="img-container">
-<li><figcaption>ライフゲーム：Conway's Game of Life</figcaption><div><img src="img/LIFE-GAME.png"></div></li>
-<li><figcaption>変形粘菌：myxomycetales</figcaption><div><img src="img/myxomycetales+CA.png"></div></li>
-</ul>
-
 ## 注意事項
   - 作品の一部またはすべての動作は外部ライブラリに依存している場合があります．よって，作品ページを読み込む際はインターネット環境に接続する必要があります．
   
