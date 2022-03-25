@@ -4,10 +4,9 @@ JavaScript実装のCanvasアニメーションを利用して，セル・オー�
 
 ## 作品一覧
 
-<ul id="img-container">
-<li><div><img src="img/LIFE-GAME.png"></div><p>ライフゲーム：Conway's Game of Life</p></li>
-<li><div><img src="img/myxomycetales+CA.png"></div><p>変形粘菌：myxomycetales</p></li>
-</ul>
+| ライフゲーム：Conway's Game of Life |     変形粘菌：myxomycetales     |
+| :---------------------------------: | :-----------------------------: |
+|       ![](img/LIFE-GAME.png)        | ![](img/myxomycetales%2BCA.png) |
 
 - [**ライフゲーム：Conway's Game of Life**](https://sotaro-ac.github.io/cellular_automata/lifegame/app.html)
   - おそらくは最も有名なセルオートマトンでしょう．
@@ -22,37 +21,14 @@ JavaScript実装のCanvasアニメーションを利用して，セル・オー�
 
 - **Coming Soon... Maybe!**
 
+<ul id="img-container">
+<li><figcaption>ライフゲーム：Conway's Game of Life</figcaption><div><img src="img/LIFE-GAME.png"></div></li>
+<li><figcaption>変形粘菌：myxomycetales</figcaption><div><img src="img/myxomycetales+CA.png"></div></li>
+</ul>
+
 ## 注意事項
   - 作品の一部またはすべての動作は外部ライブラリに依存している場合があります．よって，作品ページを読み込む際はインターネット環境に接続する必要があります．
   
   - 当方がプログラムの著作権等を主張することはありません．当プログラムの利用や改変は良識の範疇でご自由に行ってください．ただし，すべての行為は"自己責任"でよろしくお願いします．
 
-
-<style>
-    #img-container {
-        display   : flex;
-        flex-wrap : wrap;
-        /* justify-content: space-around; */
-    }
-    #img-container > li {
-        list-style: none;
-        width     : 33%;
-        margin-right: .3%;
-    }
-    #img-container > li > div {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-
-    }
-    #img-container > li img {
-        object-fit: cover;
-        width: 100%;
-        height: 250px;
-    }
-    #img-container > li > p {
-        font-weight: 600;
-        text-align: center;
-        margin: .5em
-    }
-</style>
+<style> #img-container { display : flex; flex-wrap : wrap; /* justify-content: space-around; */ } #img-container > li { list-style: none; width : 33%; margin-right: .3%; } #img-container > li > div { display: flex; justify-content: center; width: 100%; } #img-container > li img { object-fit: cover; width: 100%; height: 250px; } #img-container > li > p { font-weight: 600; text-align: center; margin: .5em } </style>
