@@ -25,5 +25,3 @@ JavaScript実装のCanvasアニメーションを利用して，セル・オー�
   - 作品の一部またはすべての動作は外部ライブラリに依存している場合があります．よって，作品ページを読み込む際はインターネット環境に接続する必要があります．
   
   - 当方がプログラムの著作権等を主張することはありません．当プログラムの利用や改変は良識の範疇でご自由に行ってください．ただし，すべての行為は"自己責任"でよろしくお願いします．
-
-<style> #img-container { display : flex; flex-wrap : wrap; /* justify-content: space-around; */ } #img-container > li { list-style: none; width : 33%; margin-right: .3%; } #img-container > li > div { display: flex; justify-content: center; width: 100%; } #img-container > li img { object-fit: cover; width: 100%; height: 250px; } #img-container > li > p { font-weight: 600; text-align: center; margin: .5em } </style>
