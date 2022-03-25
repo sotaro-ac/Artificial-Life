@@ -24,7 +24,7 @@ let ctmp = JSON.parse(JSON.stringify(cell));
 
 // variables
 let loops = 0;
-let time_wait = TIME_WAIT[10];  // 250
+let time_wait = TIME_WAIT[7];  // 100
 let requestId = null;
 
 // HTML Elements' IDs
@@ -196,7 +196,7 @@ $(btnStart).click(function (e) {
     if (requestId) {
         cancelAnimationFrame(requestId);
         requestId = null;
-        $(btnStart).text("START!").removeClass("run");
+        $(btnStart).text("CONTINUE").removeClass("run");
     } else {
         requestId = requestAnimationFrame(step);
         $(btnStart).text("STOP!").addClass("run");
