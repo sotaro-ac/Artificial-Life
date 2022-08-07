@@ -6,7 +6,7 @@ JavaScript実装のCanvasアニメーションを利用して，セル・オー�
 
 | ライフゲーム：Conway's Game of Life |     変形粘菌：myxomycetales     |
 | :---------------------------------: | :-----------------------------: |
-|       ![](img/LIFE-GAME.png)        | ![](img/myxomycetales%2BCA.png) |
+|       ![](./img/LIFE-GAME.png)        | ![](./img/myxomycetales%2BCA.png) |
 
 - [**ライフゲーム：Conway's Game of Life**](https://sotaro-ac.github.io/Cellular-Automata/lifegame/app.html)
   - おそらくは最も有名なセルオートマトンでしょう．
