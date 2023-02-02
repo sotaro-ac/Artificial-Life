@@ -1,0 +1,18 @@
+@charset "utf8";
+
+/* font */
+@import url("https://fonts.googleapis.com/css2?family=VT323&display=swap");
+
+* {
+    box-sizing: border-box;
+    margin    : 0;
+}
+
+:root {
+    --bg-color      : white;
+    --main-color    : black;
+    --main-color-a  : limegreen;
+    --main-color-b  : orangered;
+    --accent-color-a: greenyellow;
+    --accent-color-b: orange;
+}
